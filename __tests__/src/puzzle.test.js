@@ -65,6 +65,26 @@ describe('puzzle', ()=>{
 
             expect(coord.x >= 0 && coord.y >= 0 && coord.value>= 0).toBeTruthy();
         });
+        it('should throw for an invalid puzzle', ()=>{
+            let msg = '';
+            try {
+                const SUT = new puzzle([
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                ]);
+            } catch (error) {
+                msg = error.message;
+            }
+
+            expect(msg.length).toBeGreaterThan(0);
+        });
     });
 
     describe('testRow', ()=>{
@@ -101,7 +121,37 @@ describe('puzzle', ()=>{
         });
     });
     describe('testSquare', ()=>{
+        let SUT;
+        beforeEach(()=>{
+            SUT = new puzzle([
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            ]);
+        });
 
+
+        it('should be false if a square already has the value', ()=>{
+            const actualIsAssignable = SUT.testSquare(0, 1);
+
+            expect(actualIsAssignable).toBe(false);
+        });
+        it('should be true if the square does not have the value', ()=>{
+            const actualIsAssignable = SUT.testSquare(0, 3);
+
+            expect(actualIsAssignable).toBe(true);
+        });
+        it('should be true if the square does not have the value but another square does', ()=>{
+            const actualIsAssignable = SUT.testSquare(0, 2);
+
+            expect(actualIsAssignable).toBe(true);
+        });
     });
     describe('testColumn', ()=>{
         let SUT;
@@ -134,6 +184,49 @@ describe('puzzle', ()=>{
             const actualIsAssignable = SUT.testColumn(0, 2);
 
             expect(actualIsAssignable).toBe(true);
+        });
+    });
+
+    describe('getSquare', ()=>{
+        let SUT;
+        beforeEach(()=>{
+            SUT = new puzzle([
+                [0,1,9,0,0,0,7,0,0],
+                [0,3,5,0,2,0,0,9,1],
+                [6,0,0,0,9,0,0,2,4],
+                [0,0,0,2,0,8,0,0,0],
+                [0,4,2,0,3,0,1,7,0],
+                [0,0,0,4,0,7,0,0,0],
+                [5,9,0,0,4,0,0,0,7],
+                [7,8,0,0,6,0,4,1,0],
+                [0,0,4,0,0,0,5,6,0]
+            ]);
+        });
+
+        it('should return the first square when asked', ()=>{
+            let actualSquareValues = SUT.getSquare(0).map(c => c.value);
+
+            expect(actualSquareValues).toEqual([0,1,9,0,3,5,6,0,0]);
+        });
+        it('should be able to return the second square', ()=>{
+            let actualSquareValues = SUT.getSquare(1).map(c => c.value);
+
+            expect(actualSquareValues).toEqual([0,0,0,0,2,0,0,9,0]);
+        });
+        it('should be able to return the third square', ()=>{
+            let actualSquareValues = SUT.getSquare(2).map(c => c.value);
+
+            expect(actualSquareValues).toEqual([7,0,0,0,9,1,0,2,4]);
+        });
+        it('should be able to return the fifth square', ()=>{
+            let actualSquareValues = SUT.getSquare(4).map(c => c.value);
+
+            expect(actualSquareValues).toEqual([2,0,8,0,3,0,4,0,7]);
+        });
+        it('should be able to return the last square', ()=>{
+            let actualSquareValues = SUT.getSquare(8).map(c => c.value);
+
+            expect(actualSquareValues).toEqual([0,0,7,4,1,0,5,6,0]);
         });
     });
 });
