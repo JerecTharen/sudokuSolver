@@ -1,15 +1,17 @@
 const fs = require('fs');
+const puzzle = require('./src/puzzle');
 
 console.log('Hello There');
 
 //Constants
 const fileName = "generic_input.json";
 
-//TODO: Parse JSON input?
-const fileStr = fs.readFileSync('./inputs/' + fileName);
-console.log('test file string: ', fileStr.toString('utf-8'))
+//Retrieve puzzle input JSON
+const fileStr = fs.readFileSync('./inputs/' + fileName).toString('utf8');
 
 //TODO: Construct in memory version of puzzle
+const thePuzzle = new puzzle(JSON.parse(fileStr)?.rows ?? []);
+console.log('puzzle start: ', thePuzzle.coords);
 
 //TODO: Begin solving
     //TODO: Look for places with only one solution
