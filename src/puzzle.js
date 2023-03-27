@@ -43,10 +43,10 @@ module.exports = class Puzzle{
         validValues.forEach(coordNum => {
             const formattedNum = coordNum - 1;
             validValues.forEach(testVal => {
-                const isInvalidRow = this.testRow(formattedNum, testVal, true);
-                const isInvalidColumn = this.testColumn(formattedNum, testVal, true);
-                const isInvalidSquare = this.testSquare(formattedNum, testVal, true)
-                if(isInvalidRow || isInvalidColumn || isInvalidSquare){
+                const isValidRow = this.testRow(formattedNum, testVal, true);
+                const isValidColumn = this.testColumn(formattedNum, testVal, true);
+                const isValidSquare = this.testSquare(formattedNum, testVal, true)
+                if(!isValidRow || !isValidColumn || !isValidSquare){
                     throw new Error(
 `Invalid puzzle input for value: ${testVal}! 
 For square (${formattedNum}): ${isValidSquare}. 
@@ -62,7 +62,7 @@ For Column: (${formattedNum}): ${isValidColumn}`
         const row = this.coords.filter(c => c.y === rowYCoord);
         const testedRow = row.filter(c => c.value === value);
         if(isValidation){
-            return testedRow.length > 1;
+            return testedRow.length <= 1;
         }
         else{
             return testedRow.length === 0;
@@ -72,7 +72,7 @@ For Column: (${formattedNum}): ${isValidColumn}`
         const col = this.coords.filter(c => c.x === colXCoord);
         const testedCol = col.filter(c => c.value === value);
         if(isValidation){
-            return testedCol.length > 1;
+            return testedCol.length <= 1;
         }
         else{
             return testedCol.length === 0;
@@ -82,7 +82,7 @@ For Column: (${formattedNum}): ${isValidColumn}`
         const square = this.getSquare(squareNum);
         const testedSquare = square.filter(c => c.value === value);
         if(isValidation){
-            return testedSquare.length > 1;
+            return testedSquare.length <= 1;
         }
         else{
             return testedSquare.length === 0;

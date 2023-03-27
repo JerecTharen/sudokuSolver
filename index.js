@@ -1,15 +1,16 @@
 const fs = require('fs');
 const puzzle = require('./src/puzzle');
 
-console.log('Hello There');
+console.log('Hello There!');
 
 //Constants
-const fileName = "generic_input.json";
+const fileName = "easy.json";
+//const fileName = "generic_input.json";
 
 //Retrieve puzzle input JSON
 const fileStr = fs.readFileSync('./inputs/' + fileName).toString('utf8');
 
-//TODO: Construct in memory version of puzzle
+//Construct in memory version of puzzle
 const thePuzzle = new puzzle(JSON.parse(fileStr)?.rows ?? []);
 console.log('puzzle start: ', thePuzzle.coords);
 
