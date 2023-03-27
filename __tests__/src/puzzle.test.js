@@ -85,36 +85,55 @@ describe('puzzle', ()=>{
 
 
         it('should be false if a row already has the value', ()=>{
-            const actualIsAssignable = SUT.testRow(1, 0, 1);
+            const actualIsAssignable = SUT.testRow(0, 1);
 
             expect(actualIsAssignable).toBe(false);
         });
         it('should be true if the row does not have the value', ()=>{
-            const actualIsAssignable = SUT.testRow(1, 0, 3);
+            const actualIsAssignable = SUT.testRow(0, 3);
 
             expect(actualIsAssignable).toBe(true);
         });
         it('should be true if the row does not have the value but another row does', ()=>{
-            const actualIsAssignable = SUT.testRow(1, 0, 2);
+            const actualIsAssignable = SUT.testRow(0, 2);
 
             expect(actualIsAssignable).toBe(true);
-        });
-        it('should throw if testing a coord that has a value', ()=>{
-            let msg = '';
-
-            try {
-                SUT.testRow(0, 0, 2);
-            } catch (error) {
-                msg = error.message;
-            }
-
-            expect(msg.length).toBeGreaterThan(0);
         });
     });
     describe('testSquare', ()=>{
 
     });
     describe('testColumn', ()=>{
+        let SUT;
+        beforeEach(()=>{
+            SUT = new puzzle([
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 2, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            ]);
+        });
 
+
+        it('should be false if a column already has the value', ()=>{
+            const actualIsAssignable = SUT.testColumn(0, 1);
+
+            expect(actualIsAssignable).toBe(false);
+        });
+        it('should be true if the column does not have the value', ()=>{
+            const actualIsAssignable = SUT.testColumn(0, 3);
+
+            expect(actualIsAssignable).toBe(true);
+        });
+        it('should be true if the column does not have the value but another column does', ()=>{
+            const actualIsAssignable = SUT.testColumn(0, 2);
+
+            expect(actualIsAssignable).toBe(true);
+        });
     });
 });

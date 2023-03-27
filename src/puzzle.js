@@ -16,13 +16,12 @@ module.exports = class Puzzle{
         }
     }
 
-    testRow = (x, y, value) => {
-        const coord = this.coords.find(c => c.x === x && c.y === y);
-        if(coord.value !== 0){
-            throw new Error('Coordinate being tested already has a value');
-        }
-
-        const row = this.coords.filter(c => c.y === y);
+    testRow = (rowYCoord, value) => {
+        const row = this.coords.filter(c => c.y === rowYCoord);
         return row.filter(c => c.value === value).length === 0;
+    };
+    testColumn = (colXCoord, value) => {
+        const col = this.coords.filter(c => c.x === colXCoord);
+        return col.filter(c => c.value === value).length === 0;
     };
 }
