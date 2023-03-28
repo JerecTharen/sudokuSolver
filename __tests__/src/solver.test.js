@@ -1,5 +1,6 @@
 const solver = require('../../src/solver');
 const puzzle = require('../../src/puzzle');
+const allPossibleValues = require('../../src/possibleValues');
 
 describe('solver', ()=>{
     describe('addRowPossibilities', ()=>{
@@ -248,5 +249,48 @@ describe('solver', ()=>{
 
             expect(actualPossibilities).toEqual([EXPECTED_VALUE]);
         });
+    });
+
+    describe('assignSoloPossibilities', ()=>{
+        let STUB_PUZZLE;
+        let SUT;
+        beforeEach(()=>{
+            STUB_PUZZLE = new puzzle([
+                [0,2,3,4,5,6,7,8,9],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+            ]);
+            SUT = new solver(STUB_PUZZLE);
+        });
+
+        it('should assign a value if there is only one possibility', ()=>{
+            const EXPECTED_VALUE = 1;
+            SUT.puzzle.coords[0].possibilities = [EXPECTED_VALUE];
+
+            SUT.assignSoloPossibilities();
+            const actualValue = SUT.puzzle.coords[0].value;
+
+            expect(actualValue).toBe(EXPECTED_VALUE);
+        });
+        it('should not assign a value if there are more than one one possibility', ()=>{
+            const EXPECTED_VALUE = 0;
+            SUT.puzzle.coords[9].possibilities = allPossibleValues;
+
+            SUT.assignSoloPossibilities();
+            const actualValue = SUT.puzzle.coords[0].value;
+
+            expect(actualValue).toBe(EXPECTED_VALUE);
+        });
+    });
+    describe('assignRowUniquePossibility', ()=>{
+        it('should not be implemented yet', ()=>{
+            expect(false).toBe(true);
+        })
     });
 });

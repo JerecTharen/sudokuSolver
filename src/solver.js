@@ -46,23 +46,34 @@ module.exports = class Solver{
         this.puzzle
             .filter(c => c.value === 0)
             .forEach(c => {
-                const originalPossibilities = [...c.possibleValues];
+                const originalPossibilities = [...c.possibilities];
                 let squareNum = this.puzzle.getSquareNumFromCoords(c.x, c.y);
 
-                c.possibleValues = this.addRowPossibilities(c.y, c.possibleValues);
-                c.possibleValues = this.addColumnPossibilities(c.x, c.possibleValues);
-                c.possibleValues = this.addSquarePossibilities(squareNum, c.possibleValues);
+                c.possibilities = this.addRowPossibilities(c.y, c.possibilities);
+                c.possibilities = this.addColumnPossibilities(c.x, c.possibilities);
+                c.possibilities = this.addSquarePossibilities(squareNum, c.possibilities);
                 
-                c.possibleValues = this.pruneRowPossibilities(c.y, c.possibleValues);
-                c.possibleValues = this.pruneColumnPossibilities(c.x, c.possibleValues);
-                c.possibleValues = this.pruneSquarePossibilities(squareNum, c.possibleValues);
+                c.possibilities = this.pruneRowPossibilities(c.y, c.possibilities);
+                c.possibilities = this.pruneColumnPossibilities(c.x, c.possibilities);
+                c.possibilities = this.pruneSquarePossibilities(squareNum, c.possibilities);
 
                 //Detect if a change was made
                 hasChanges = hasChanges 
-                    || JSON.stringify(originalPossibilities) !== JSON.stringify(c.possibleValues)
+                    || JSON.stringify(originalPossibilities) !== JSON.stringify(c.possibilities)
             });
 
         //Whether a possibility was added or removed
         return hasChanges;
+    }
+
+    assignSoloPossibilities(){
+        let madeChanges = false;
+        this.puzzle.coords.forEach(c => {
+            if(c.possibilities.length === 1){
+                c.setValue(c.possibilities[0]);
+                madeChanges = true;
+            }
+        });
+        return madeChanges;
     }
 }
