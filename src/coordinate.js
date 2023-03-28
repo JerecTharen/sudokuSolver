@@ -12,6 +12,7 @@ module.exports = class Coordinate{
         this.x = x;
         this.y = y;
         this.value = value ?? 0;
+        this.possibilities = [];
     }
 
     setValue(value){
@@ -21,5 +22,12 @@ module.exports = class Coordinate{
         else{
             this.value = value;
         }
+    }
+
+    addPossibility(value){
+        this.possibilities.push(value);
+    }
+    removePossibility(value){
+        this.possibilities = this.possibilities.filter(p => p !== value);
     }
 }

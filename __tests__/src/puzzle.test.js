@@ -229,4 +229,106 @@ describe('puzzle', ()=>{
             expect(actualSquareValues).toEqual([0,0,7,4,1,0,5,6,0]);
         });
     });
+    describe('getSquareNumFromCoords', ()=>{
+        it('should be able to get the first square from coords', ()=>{
+            const EXPECTED_VALUE = 0;
+            const x = 0;
+            const y = 0;
+
+            const SUT = new puzzle([//Need to instantiate because of squareOneCoords helper
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0]
+            ]);
+            const actualSquareNum = SUT.getSquareNumFromCoords(x, y);
+
+            expect(actualSquareNum).toBe(EXPECTED_VALUE);
+        });
+        it('should be able to get the second square from coords', ()=>{
+            const EXPECTED_VALUE = 1;
+            const x = 3;
+            const y = 0;
+
+            const SUT = new puzzle([//Need to instantiate because of squareOneCoords helper
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0]
+            ]);
+            const actualSquareNum = SUT.getSquareNumFromCoords(x, y);
+
+            expect(actualSquareNum).toBe(EXPECTED_VALUE);
+        });
+        it('should be able to get the third square from coords', ()=>{
+            const EXPECTED_VALUE = 2;
+            const x = 6;
+            const y = 0;
+
+            const SUT = new puzzle([//Need to instantiate because of squareOneCoords helper
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0]
+            ]);
+            const actualSquareNum = SUT.getSquareNumFromCoords(x, y);
+
+            expect(actualSquareNum).toBe(EXPECTED_VALUE);
+        });
+        it('should be able to get the fifth square from coords', ()=>{
+            const EXPECTED_VALUE = 4;
+            const x = 3;
+            const y = 3;
+
+            const SUT = new puzzle([//Need to instantiate because of squareOneCoords helper
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0]
+            ]);
+            const actualSquareNum = SUT.getSquareNumFromCoords(x, y);
+
+            expect(actualSquareNum).toBe(EXPECTED_VALUE);
+        });
+        it('should be able to get the last square from coords', ()=>{
+            const EXPECTED_VALUE = 8;
+            const x = 8;
+            const y = 8;
+
+            const SUT = new puzzle([//Need to instantiate because of squareOneCoords helper
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0]
+            ]);
+            const actualSquareNum = SUT.getSquareNumFromCoords(x, y);
+
+            expect(actualSquareNum).toBe(EXPECTED_VALUE);
+        });
+    });
 });

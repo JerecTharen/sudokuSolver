@@ -1,4 +1,5 @@
 const coordinate = require('./coordinate');
+const possibleValues = require('./possibleValues');
 
 const squareOneCoords = [
     {x: 0, y: 0},
@@ -39,10 +40,9 @@ module.exports = class Puzzle{
             {x: 2, y: 2},
         ];
 
-        const validValues = [1,2,3,4,5,6,7,8,9];
-        validValues.forEach(coordNum => {
+        possibleValues.forEach(coordNum => {
             const formattedNum = coordNum - 1;
-            validValues.forEach(testVal => {
+            possibleValues.forEach(testVal => {
                 const isValidRow = this.testRow(formattedNum, testVal, true);
                 const isValidColumn = this.testColumn(formattedNum, testVal, true);
                 const isValidSquare = this.testSquare(formattedNum, testVal, true)
@@ -117,6 +117,32 @@ For Column: (${formattedNum}): ${isValidColumn}`
                 return this.squareOneCoords.map(sc => ({x: sc.x + 3, y: sc.y + 6}));
             case 8:
                 return this.squareOneCoords.map(sc => ({x: sc.x + 6, y: sc.y + 6}));
+        }
+    };
+    getSquareNumFromCoords = (x, y) => {
+        if(this.squareOneCoords.find(c => c.x === x && c.y === y)){
+            return 0;
+        }
+        else{
+            const firstRow = [1,2];
+            const secondRow = [3,4,5];
+            const thirdRow = [6,7,8];
+            let squareColumnIndex = x < 3 
+                ? 0 
+                : x < 6 
+                    ? 1 
+                    : 2
+
+            if(y < 3){
+                //Already know it's not square one so bring down the column by 1
+                return firstRow[squareColumnIndex -1];
+            }
+            else if(y < 6){
+                return secondRow[squareColumnIndex];
+            }
+            else{
+                return thirdRow[squareColumnIndex];
+            }
         }
     };
 }

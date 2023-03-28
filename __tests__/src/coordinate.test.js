@@ -1,4 +1,3 @@
-const Coordinate = require('../../src/coordinate');
 const coordinate = require('../../src/coordinate');
 
 describe('coordinate', ()=>{
@@ -71,7 +70,7 @@ describe('coordinate', ()=>{
         it('should set the value', ()=>{
             const EXPECTED_VALUE = 1;
 
-            const SUT = new Coordinate(1, 1);
+            const SUT = new coordinate(1, 1);
             SUT.setValue(1);
 
             expect(SUT.value).toBe(EXPECTED_VALUE);
@@ -99,6 +98,30 @@ describe('coordinate', ()=>{
             }
 
             expect(msg.length).toBeGreaterThan(0);
+        });
+    });
+
+    describe('addPossibility', ()=>{
+        it('should add the possible value', ()=>{
+            const EXPECTED_VALUE = 1;
+            const SUT = new coordinate(0,0);
+
+            SUT.addPossibility(EXPECTED_VALUE);
+            const actualPossibilities = SUT.possibilities;
+
+            expect(actualPossibilities).toEqual([EXPECTED_VALUE]);
+        });
+    });
+    describe('removePossibility', ()=>{
+        it('should remove the possible value', ()=>{
+            const EXPECTED_VALUE = 1;
+            const SUT = new coordinate(0,0);
+
+            SUT.addPossibility(EXPECTED_VALUE);
+            SUT.removePossibility(EXPECTED_VALUE);
+            const actualPossibilities = SUT.possibilities;
+
+            expect(actualPossibilities).toEqual([]);
         });
     });
 });
