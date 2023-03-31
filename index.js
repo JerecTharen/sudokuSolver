@@ -15,10 +15,11 @@ const fileStr = fs.readFileSync('./inputs/' + fileName).toString('utf8');
 const thePuzzle = new puzzle(JSON.parse(fileStr)?.rows ?? []);
 console.log('puzzle start: ', thePuzzle.coords);
 
-//TODO: Begin solving
+//Begin solving
 const theSolver = new Solver(thePuzzle, true);
 theSolver.solve();
 
+//Print results
 console.log('Solved puzzle, writting results');
 fs.writeFileSync(`./inputs/${fileName}.solved.json`, thePuzzle.print());
 

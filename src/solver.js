@@ -13,10 +13,10 @@ module.exports = class Solver{
     
             madeChanges = madeChanges || this.checkPossibilities();
     
-            //TODO: Look for places with only one solution
+            //Look for places with only one solution
             this.assignSoloPossibilities();
             
-            //TODO: Look for places that contain the only solution for their: square, row, column
+            //Look for places that contain the only solution for their: square, row, column
             possibleValues.forEach(pv => {
                 madeChanges = madeChanges || this.assignRowUniquePossibilities(pv);
                 madeChanges = madeChanges || this.assignColumnUniquePossibilities(pv);
