@@ -145,4 +145,22 @@ For Column: (${formattedNum}): ${isValidColumn}`
             }
         }
     };
+
+    print = ()=>{
+        const puzzleBoard = [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+        ];
+        this.coords.forEach(c => {
+            puzzleBoard[c.y][c.x] = c.value;
+        });
+        return JSON.stringify({rows: puzzleBoard});
+    }
 }

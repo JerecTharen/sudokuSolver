@@ -8,25 +8,27 @@ module.exports = class Solver{
 
     solve(){
         this.isLoggingOn = true;//This probably won't be unit tested so log everything
-        let madeChanges = false;
-
-        madeChanges = madeChanges || this.checkPossibilities();
-
-        //TODO: Look for places with only one solution
-        this.assignSoloPossibilities();
-        
-        //TODO: Look for places that contain the only solution for their: square, row, column
-        possibleValues.forEach(pv => {
-            madeChanges = madeChanges || this.assignRowUniquePossibilities(pv);
-            madeChanges = madeChanges || this.assignColumnUniquePossibilities(pv);
-            madeChanges = madeChanges || this.assignUniqueSquarePossibilities(pv);
-        });
-
-        
-        //TODO: Otherwise, pick a spot with two options and enter perspective mode
-        //TOD: Restart loop if any spot was filled in
-        if(!madeChanges){
-            throw new Error('Need to implemented perspective mode');
+        while(this.puzzle.coords.filter(c => c.value === 0).length > 0){
+            let madeChanges = false;
+    
+            madeChanges = madeChanges || this.checkPossibilities();
+    
+            //TODO: Look for places with only one solution
+            this.assignSoloPossibilities();
+            
+            //TODO: Look for places that contain the only solution for their: square, row, column
+            possibleValues.forEach(pv => {
+                madeChanges = madeChanges || this.assignRowUniquePossibilities(pv);
+                madeChanges = madeChanges || this.assignColumnUniquePossibilities(pv);
+                madeChanges = madeChanges || this.assignUniqueSquarePossibilities(pv);
+            });
+    
+            
+            //TODO: Otherwise, pick a spot with two options and enter perspective mode
+            //TOD: Restart loop if any spot was filled in
+            if(!madeChanges){
+                throw new Error('Need to implemented perspective mode');
+            }
         }
     }
 
@@ -68,7 +70,7 @@ module.exports = class Solver{
     checkPossibilities(){
         let hasChanges = false;
         //Filter for all coordinates that don't have a value
-        this.puzzle
+        this.puzzle.coords
             .filter(c => c.value === 0)
             .forEach(c => {
                 const originalPossibilities = [...c.possibilities];
@@ -97,7 +99,7 @@ module.exports = class Solver{
             if(c.possibilities.length === 1){
                 c.setValue(c.possibilities[0]);
                 madeChanges = true;
-                if(this.isLoggingOn)console.log(`Assigned ${c[possibilities[0]]} to ${c.x}, ${c.y}`);
+                if(this.isLoggingOn)console.log(`Assigned ${c.possibilities[0]} to ${c.x}, ${c.y}`);
             }
         });
         return madeChanges;

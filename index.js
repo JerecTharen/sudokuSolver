@@ -19,4 +19,7 @@ console.log('puzzle start: ', thePuzzle.coords);
 const theSolver = new Solver(thePuzzle, true);
 theSolver.solve();
 
+console.log('Solved puzzle, writting results');
+fs.writeFileSync(`./inputs/${fileName}.solved.json`, thePuzzle.print());
+
 console.log('General Kenobi!');
