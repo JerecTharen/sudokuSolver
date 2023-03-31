@@ -6,6 +6,11 @@ module.exports = class Solver{
         this.isLoggingOn = isLoggingOn;
     }
 
+    solve(){
+        this.isLoggingOn = true;//This probably won't be unit tested so log everything
+        
+    }
+
     addRowPossibilities(rowNum, possibilitiesSoFar){
         let row = this.puzzle.coords.filter(c => c.y === rowNum);
         let uniquePossibilities = new Set(possibilitiesSoFar);
@@ -79,12 +84,46 @@ module.exports = class Solver{
         return madeChanges;
     }
 
-    assignRowUniquePossibility(rowNum){
+    assignRowUniquePossibilities(rowNum){
         let madeChanges = false;
         const row = this.puzzle.coords.filter(c => c.y === rowNum);
         row.forEach(c => {
             const otherPossibilities = row
                 .filter(rc => rc.x !== c.x)
+                .reduce((prev, curr) => [...prev, ...curr.possibilities], []);
+            c.possibilities.forEach(p => {
+                if(!madeChanges && !otherPossibilities.includes(p)){
+                    c.setValue(p);
+                    madeChanges = true;
+                    if(this.isLoggingOn)console.log(`Set value ${p} to ${c.x}, ${c.y}`);
+                }
+            });
+        });
+        return madeChanges;
+    }
+    assignColumnUniquePossibilities(colNum){
+        let madeChanges = false;
+        const col = this.puzzle.coords.filter(c => c.x === colNum);
+        col.forEach(c => {
+            const otherPossibilities = col
+                .filter(rc => rc.y !== c.y)
+                .reduce((prev, curr) => [...prev, ...curr.possibilities], []);
+            c.possibilities.forEach(p => {
+                if(!madeChanges && !otherPossibilities.includes(p)){
+                    c.setValue(p);
+                    madeChanges = true;
+                    if(this.isLoggingOn)console.log(`Set value ${p} to ${c.x}, ${c.y}`);
+                }
+            });
+        });
+        return madeChanges;
+    }
+    assignUniqueSquarePossibilities(squareNum){
+        let madeChanges = false;
+        const square = this.puzzle.getSquare(squareNum);
+        square.forEach(c => {
+            const otherPossibilities = square
+                .filter(rc => rc.y !== c.y || rc.x !== c.x)
                 .reduce((prev, curr) => [...prev, ...curr.possibilities], []);
             c.possibilities.forEach(p => {
                 if(!madeChanges && !otherPossibilities.includes(p)){

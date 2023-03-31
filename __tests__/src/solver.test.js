@@ -288,7 +288,8 @@ describe('solver', ()=>{
             expect(actualValue).toBe(EXPECTED_VALUE);
         });
     });
-    describe('assignRowUniquePossibility', ()=>{
+
+    describe('assignRowUniquePossibilities', ()=>{
         let STUB_PUZZLE;
         let SUT;
         beforeEach(()=>{
@@ -311,7 +312,7 @@ describe('solver', ()=>{
             SUT.puzzle.coords[0].possibilities = [EXPECTED_VALUE, 9];
             SUT.puzzle.coords.find(c => c.x === 8 && c.y === 0).possibilities = [9];
             
-            SUT.assignRowUniquePossibility(0);
+            SUT.assignRowUniquePossibilities(0);
             const actualValue = SUT.puzzle?.coords[0]?.value;
             
             expect(actualValue).toBe(EXPECTED_VALUE);
@@ -321,8 +322,86 @@ describe('solver', ()=>{
             SUT.puzzle.coords.find(c => c.x === 0 && c.y === 0).possibilities = [1, 9];
             SUT.puzzle.coords.find(c => c.x === 8 && c.y === 0).possibilities = [1, 9];
             
-            SUT.assignRowUniquePossibility(0);
+            SUT.assignRowUniquePossibilities(0);
             const actualValue = SUT.puzzle?.coords?.find(c => c.x === 0 && c.y === 0)?.value;
+            
+            expect(actualValue).toBe(EXPECTED_VALUE);
+        });
+    });
+    describe('assignColumnUniquePossibilities', ()=>{
+        let STUB_PUZZLE;
+        let SUT;
+        beforeEach(()=>{
+            STUB_PUZZLE = new puzzle([
+                [0,0,0,0,0,0,0,0,0],
+                [2,0,0,0,0,0,0,0,0],
+                [3,0,0,0,0,0,0,0,0],
+                [4,0,0,0,0,0,0,0,0],
+                [5,0,0,0,0,0,0,0,0],
+                [6,0,0,0,0,0,0,0,0],
+                [7,0,0,0,0,0,0,0,0],
+                [8,0,0,0,0,0,0,0,0],
+                [0,1,0,0,0,0,0,0,0],
+            ]);
+            SUT = new solver(STUB_PUZZLE);
+        });
+
+        it('should assign unique column possibility', ()=>{
+            const EXPECTED_VALUE = 1;
+            SUT.puzzle.coords[0].possibilities = [EXPECTED_VALUE];
+            SUT.puzzle.coords.find(c => c.x === 0 && c.y === 8).possibilities = [9];
+            
+            SUT.assignColumnUniquePossibilities(0);
+            const actualValue = SUT.puzzle?.coords[0]?.value;
+            
+            expect(actualValue).toBe(EXPECTED_VALUE);
+        });
+        it('should not assign possibility when it is not unique', ()=>{
+            const EXPECTED_VALUE = 0;
+            SUT.puzzle.coords[0].possibilities = [1, 9];
+            SUT.puzzle.coords.find(c => c.x === 0 && c.y === 8).possibilities = [1, 9];
+            
+            SUT.assignColumnUniquePossibilities(0);
+            const actualValue = SUT.puzzle?.coords[0]?.value;
+            
+            expect(actualValue).toBe(EXPECTED_VALUE);
+        });
+    });
+    describe('assignSquareUniquePossibilities', ()=>{
+        let STUB_PUZZLE;
+        let SUT;
+        beforeEach(()=>{
+            STUB_PUZZLE = new puzzle([
+                [0,2,3,0,0,0,0,0,0],
+                [4,5,6,0,0,0,0,0,0],
+                [7,8,0,1,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+            ]);
+            SUT = new solver(STUB_PUZZLE);
+        });
+
+        it('should assign unique square possibility', ()=>{
+            const EXPECTED_VALUE = 1;
+            SUT.puzzle.coords[0].possibilities = [EXPECTED_VALUE];
+            SUT.puzzle.coords.find(c => c.x === 2 && c.y === 2).possibilities = [9];
+            
+            SUT.assignUniqueSquarePossibilities(0);
+            const actualValue = SUT.puzzle?.coords[0]?.value;
+            
+            expect(actualValue).toBe(EXPECTED_VALUE);
+        });
+        it('should not assign square possibility when not unique', ()=>{
+            const EXPECTED_VALUE = 0;
+            SUT.puzzle.coords[0].possibilities = [1,9];
+            SUT.puzzle.coords.find(c => c.x === 2 && c.y === 2).possibilities = [1,9];
+            
+            SUT.assignUniqueSquarePossibilities(0);
+            const actualValue = SUT.puzzle?.coords[0]?.value;
             
             expect(actualValue).toBe(EXPECTED_VALUE);
         });
