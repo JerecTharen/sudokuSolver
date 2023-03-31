@@ -289,8 +289,42 @@ describe('solver', ()=>{
         });
     });
     describe('assignRowUniquePossibility', ()=>{
-        it('should not be implemented yet', ()=>{
-            expect(false).toBe(true);
-        })
+        let STUB_PUZZLE;
+        let SUT;
+        beforeEach(()=>{
+            STUB_PUZZLE = new puzzle([
+                [0,2,3,4,5,6,7,8,0],
+                [0,0,0,0,0,0,0,0,1],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0],
+            ]);
+            SUT = new solver(STUB_PUZZLE);
+        });
+
+        it('should assign a one from possibilities when no other position on the row can hold it', ()=>{
+            const EXPECTED_VALUE = 1;
+            SUT.puzzle.coords[0].possibilities = [EXPECTED_VALUE, 9];
+            SUT.puzzle.coords.find(c => c.x === 8 && c.y === 0).possibilities = [9];
+            
+            SUT.assignRowUniquePossibility(0);
+            const actualValue = SUT.puzzle?.coords[0]?.value;
+            
+            expect(actualValue).toBe(EXPECTED_VALUE);
+        });
+        it('should not assign a one from possibilities when another position on the row can hold it', ()=>{
+            const EXPECTED_VALUE = 0;
+            SUT.puzzle.coords.find(c => c.x === 0 && c.y === 0).possibilities = [1, 9];
+            SUT.puzzle.coords.find(c => c.x === 8 && c.y === 0).possibilities = [1, 9];
+            
+            SUT.assignRowUniquePossibility(0);
+            const actualValue = SUT.puzzle?.coords?.find(c => c.x === 0 && c.y === 0)?.value;
+            
+            expect(actualValue).toBe(EXPECTED_VALUE);
+        });
     });
 });

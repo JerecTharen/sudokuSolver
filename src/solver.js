@@ -1,8 +1,9 @@
 const possibleValues = require('./possibleValues');
 
 module.exports = class Solver{
-    constructor(puzzle){
+    constructor(puzzle, isLoggingOn = false){
         this.puzzle = puzzle;
+        this.isLoggingOn = isLoggingOn;
     }
 
     addRowPossibilities(rowNum, possibilitiesSoFar){
@@ -72,7 +73,26 @@ module.exports = class Solver{
             if(c.possibilities.length === 1){
                 c.setValue(c.possibilities[0]);
                 madeChanges = true;
+                if(this.isLoggingOn)console.log(`Assigned ${c[possibilities[0]]} to ${c.x}, ${c.y}`);
             }
+        });
+        return madeChanges;
+    }
+
+    assignRowUniquePossibility(rowNum){
+        let madeChanges = false;
+        const row = this.puzzle.coords.filter(c => c.y === rowNum);
+        row.forEach(c => {
+            const otherPossibilities = row
+                .filter(rc => rc.x !== c.x)
+                .reduce((prev, curr) => [...prev, ...curr.possibilities], []);
+            c.possibilities.forEach(p => {
+                if(!madeChanges && !otherPossibilities.includes(p)){
+                    c.setValue(p);
+                    madeChanges = true;
+                    if(this.isLoggingOn)console.log(`Set value ${p} to ${c.x}, ${c.y}`);
+                }
+            });
         });
         return madeChanges;
     }
