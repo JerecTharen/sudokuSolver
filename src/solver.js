@@ -8,7 +8,26 @@ module.exports = class Solver{
 
     solve(){
         this.isLoggingOn = true;//This probably won't be unit tested so log everything
+        let madeChanges = false;
+
+        madeChanges = madeChanges || this.checkPossibilities();
+
+        //TODO: Look for places with only one solution
+        this.assignSoloPossibilities();
         
+        //TODO: Look for places that contain the only solution for their: square, row, column
+        possibleValues.forEach(pv => {
+            madeChanges = madeChanges || this.assignRowUniquePossibilities(pv);
+            madeChanges = madeChanges || this.assignColumnUniquePossibilities(pv);
+            madeChanges = madeChanges || this.assignUniqueSquarePossibilities(pv);
+        });
+
+        
+        //TODO: Otherwise, pick a spot with two options and enter perspective mode
+        //TOD: Restart loop if any spot was filled in
+        if(!madeChanges){
+            throw new Error('Need to implemented perspective mode');
+        }
     }
 
     addRowPossibilities(rowNum, possibilitiesSoFar){

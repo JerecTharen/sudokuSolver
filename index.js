@@ -1,5 +1,6 @@
 const fs = require('fs');
 const puzzle = require('./src/puzzle');
+const Solver = require('./src/solver');
 
 console.log('Hello There!');
 
@@ -15,12 +16,7 @@ const thePuzzle = new puzzle(JSON.parse(fileStr)?.rows ?? []);
 console.log('puzzle start: ', thePuzzle.coords);
 
 //TODO: Begin solving
-    //TODO: Look for places with only one solution
-
-    //TODO: Look for places that contain the only solution for their: square, row, column
-
-    //TOD: Restart loop if any spot was filled in
-
-    //TODO: Otherwise, pick a spot with two options and enter perspective mode
+const theSolver = new Solver(thePuzzle, true);
+theSolver.solve();
 
 console.log('General Kenobi!');
